@@ -1,8 +1,8 @@
 ## Применение
 
-```powershell
-Copy-Item hw1\backend\main.go ..\example-sd-repo\demo-app-1\backend\main.go -Force
-cd ..\example-sd-repo\demo-app-1
+```bash
+cp hw1/backend/main.go example-sd-repo/demo-app-1/backend/main.go
+cd example-sd-repo/demo-app-1
 docker compose up -d --build backend
 ```
 

@@ -21,9 +21,9 @@ hw2/
 │   └── init_schema.sql            # DDL owners + events
 ├── traffic-generator.py           # скрипт-стрелялка (из postgres-ha)
 ├── scripts/
-│   ├── setup.ps1                  # build patroni + docker compose up + SQL
-│   ├── run-traffic.ps1            # запуск генератора нагрузки
-│   └── failover-tests.ps1         # сценарии отказов
+│   ├── setup.sh                   # build patroni + docker compose up + SQL
+│   ├── run-traffic.sh             # запуск генератора нагрузки
+│   └── failover-tests.sh          # сценарии отказов
 └── results/
     ├── patronictl_output.txt      # вывод patronictl
     └── haproxy_stats.html         # страница статистики HAProxy
@@ -31,16 +31,16 @@ hw2/
 
 ## Быстрый старт
 
-```powershell
+```bash
 # 1. Поднять кластер
-.\hw2\scripts\setup.ps1
+./hw2/scripts/setup.sh
 
 # 2. Генератор нагрузки (в отдельном терминале)
-.\hw2\scripts\run-traffic.ps1
+./hw2/scripts/run-traffic.sh
 
 # 3. Тесты отказоустойчивости
-.\hw2\scripts\failover-tests.ps1 -Action stop-leader
-.\hw2\scripts\failover-tests.ps1 -Action restore
+./hw2/scripts/failover-tests.sh stop-leader
+./hw2/scripts/failover-tests.sh restore
 ```
 
 ### Порты

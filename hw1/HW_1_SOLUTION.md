@@ -168,12 +168,12 @@ Nginx :8080  ── /api/* ──► Backend Go :8081 ──► PostgreSQL :5432
 
 ## 6. Как воспроизвести
 
-```powershell
+```bash
 # 1. Поднять стек и применить патч метрик
-.\hw1\scripts\setup.ps1
+./hw1/scripts/setup.sh
 
 # 2. Запустить все сценарии
-.\hw1\scripts\run-load-tests.ps1
+./hw1/scripts/run-load-tests.sh
 
 # 3. Открыть Grafana
 # http://localhost:3000 (admin/admin)

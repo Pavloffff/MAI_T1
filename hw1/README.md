@@ -27,7 +27,7 @@ hw1/
 │   ├── wave.js                  # "Волна": 0 to 500 VU за 2 мин
 │   └── custom-sawtooth.js       # "Пила": чередование read/write фаз
 ├── scripts/
-│   ├── setup.ps1                # патч backend + docker compose up
-│   └── run-load-tests.ps1       # запуск k6-сценариев
+│   ├── setup.sh                 # патч backend + docker compose up
+│   └── run-load-tests.sh        # запуск k6-сценариев
 └── results/                     # сюда пишутся summary k6 (после запуска)
 ```

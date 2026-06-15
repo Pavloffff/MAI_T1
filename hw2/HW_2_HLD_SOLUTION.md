@@ -65,74 +65,7 @@ webhooks и billing не должны увеличивать latency покуп�
 
 ### 1.4. HLD - диаграмма C4 (Level 1–2)
 
-```mermaid
-flowchart TB
-    subgraph clients [Clients]
-        Reseller[Reseller Systems]
-        Buyer[Buyers via Reseller UI]
-        Admin[Support Operators]
-    end
-
-    subgraph edge [Edge Layer]
-        CDN[CDN - static]
-        WAF[WAF]
-        ALB[Load Balancer]
-        GW[API Gateway]
-    end
-
-    subgraph services [Core Services]
-        IdP[Identity Service]
-        Cat[Catalog Service]
-        Inv[Inventory Service]
-        Ord[Order Service]
-        Pay[Payment Adapter]
-        Notif[Notification Service]
-        Bill[Billing Service]
-        AdminBFF[Admin BFF]
-    end
-
-    subgraph data [Data Layer]
-        Redis[(Redis Cluster)]
-        PG_Inv[(PostgreSQL Inventory HA)]
-        PG_Ord[(PostgreSQL Orders HA)]
-        PG_Bill[(PostgreSQL Billing)]
-        Kafka[[Kafka Cluster]]
-        S3[(Object Storage)]
-    end
-
-    subgraph observability [Observability]
-        Prom[Prometheus]
-        Graf[Grafana]
-        Loki[Loki]
-        Tempo[Tempo]
-    end
-
-    Reseller --> WAF
-    Buyer --> CDN
-    Admin --> ALB
-    WAF --> ALB --> GW
-
-    GW --> IdP
-    GW --> Cat
-    GW --> Ord
-    AdminBFF --> Ord
-    AdminBFF --> Inv
-
-    Cat --> Redis
-    Cat --> PG_Inv
-    Ord --> Inv
-    Ord --> Pay
-    Ord --> PG_Ord
-    Ord --> Kafka
-    Inv --> PG_Inv
-    Bill --> PG_Bill
-    Kafka --> Notif
-    Kafka --> Bill
-    Notif --> Reseller
-
-    services --> Prom
-    Prom --> Graf
-```
+![HLD - диаграмма C4 Level 1–2](images/hld_c4_level1-2.png)
 
 ---
 
@@ -185,35 +118,7 @@ flowchart TB
 
 ### 2.5. C4 Level 3 - данные на схеме
 
-```mermaid
-flowchart LR
-    subgraph inv_svc [Inventory Service]
-        InvAPI[API]
-    end
-
-    subgraph ord_svc [Order Service]
-        OrdAPI[API]
-    end
-
-    subgraph ha [PostgreSQL HA - Patroni]
-        PG_Primary[(Primary)]
-        PG_Rep1[(Sync Replica)]
-        PG_Rep2[(Async Replica)]
-        ETCD[etcd DCS]
-        HAP[HAProxy]
-    end
-
-    Redis[(Redis - locks/cache)]
-    Kafka[[Kafka]]
-
-    InvAPI --> HAP --> PG_Primary
-    OrdAPI --> HAP
-    InvAPI --> Redis
-    PG_Primary --> PG_Rep1
-    PG_Primary --> PG_Rep2
-    ETCD -.-> PG_Primary
-    OrdAPI --> Kafka
-```
+![C4 Level 3 - данные на схеме](images/hld_c4_level3.png)
 
 ---
 
@@ -250,45 +155,7 @@ flowchart LR
 
 ### 3.3. Полная HLD-схема (C4 Container + инфраструктура)
 
-```mermaid
-flowchart TB
-    subgraph must [MUST Components]
-        direction TB
-        WAF[WAF]
-        ALB[Load Balancer]
-        GW[API Gateway]
-        IdP[Keycloak IdP]
-        Redis[Redis Cluster]
-        Kafka[Kafka]
-        PG_HA[PostgreSQL Patroni HA]
-        OBS[Prometheus/Grafana/Loki]
-        CICD[GitLab CI/CD]
-        Backup[WAL-G Backup]
-        Vault[Secrets Vault]
-    end
-
-    subgraph should [SHOULD Components]
-        CDN[CDN]
-        Mesh[Istio Service Mesh]
-        FF[Feature Flags]
-        DLQ[Kafka DLQ]
-        HAP_HA[HAProxy HA Pair]
-    end
-
-    Reseller[Reseller API Clients] --> CDN
-    Reseller --> WAF --> ALB --> GW
-    GW --> IdP
-    GW --> Services[Microservices]
-    Services --> Redis
-    Services --> PG_HA
-    Services --> Kafka
-    PG_HA --> HAP_HA
-    Services --> OBS
-    CICD --> Services
-    Backup --> PG_HA
-    Vault --> Services
-    Kafka --> DLQ
-```
+![Полная HLD-схема (C4 Container + инфраструктура)](images/hld_full.png)
 
 ---
 

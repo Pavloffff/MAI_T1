@@ -1,4 +1,4 @@
-# HW2 - Patroni PostgreSQL HA Cluster
+****# HW2 - Patroni PostgreSQL HA Cluster
 
 ---
 
@@ -33,17 +33,17 @@
 
 ## 2. Запуск кластера
 
-```powershell
+```bash
 # 1. Собрать образ (из patroni-master)
-cd example-sd-repo\postgres-ha\patroni-master
+cd example-sd-repo/postgres-ha/patroni-master
 docker build -t patroni .
 
 # 2. Поднять кластер (в задании указано hw3 - фактически postgres-ha)
-cd ..\ 
+cd ..
 docker compose up -d
 
 # Или одной командой:
-.\hw2\scripts\setup.ps1
+./hw2/scripts/setup.sh
 ```
 
 ---
@@ -120,9 +120,9 @@ HAProxy предоставляет:
 
 ## 6. Traffic generator
 
-```powershell
-pip install psycopg2-binary
-.\hw2\scripts\run-traffic.ps1
+```bash
+pip3 install psycopg2-binary
+./hw2/scripts/run-traffic.sh
 ```
 
 Скрипт подключается к `localhost:5002` с `target_session_attrs=read-write` - PostgreSQL libpq гарантирует подключение к мастеру.
@@ -211,9 +211,9 @@ Prometheus scrape: patroni1/2/3:8008, postgres_exporter:9187.
 
 ## 10. Скрипты для воспроизведения
 
-```powershell
-.\hw2\scripts\setup.ps1              # build + up + SQL
-.\hw2\scripts\run-traffic.ps1        # генератор нагрузки
-.\hw2\scripts\failover-tests.ps1 -Action stop-leader
-.\hw2\scripts\failover-tests.ps1 -Action restore
+```bash
+./hw2/scripts/setup.sh              # build + up + SQL
+./hw2/scripts/run-traffic.sh        # генератор нагрузки
+./hw2/scripts/failover-tests.sh stop-leader
+./hw2/scripts/failover-tests.sh restore
 ```

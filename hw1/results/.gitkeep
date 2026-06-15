@@ -2,6 +2,6 @@
 
 Сюда сохраняются summary-файлы после запуска:
 
-```powershell
-.\hw1\scripts\run-load-tests.ps1
+```bash
+./hw1/scripts/run-load-tests.sh
 ```
