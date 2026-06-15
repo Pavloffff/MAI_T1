@@ -1,0 +1,29 @@
++ Cluster: demo (7651139678570078230) --------+----+-------------+-----+------------+-----+
+| Member   | Host       | Role    | State     | TL | Receive LSN | Lag | Replay LSN | Lag |
++----------+------------+---------+-----------+----+-------------+-----+------------+-----+
+| patroni1 | 172.19.0.2 | Replica | streaming |  2 |   0/4048BD8 |   0 |  0/4048BD8 |   0 |
+| patroni2 | 172.19.0.5 | Leader  | running   |  2 |             |     |            |     |
+| patroni3 | 172.19.0.9 | Replica | streaming |  2 |   0/4048BD8 |   0 |  0/4048BD8 |   0 |
++----------+------------+---------+-----------+----+-------------+-----+------------+-----+
+
+# etcd keys (/service/demo):
+# /service/demo/config
+# /service/demo/initialize
+# /service/demo/leader
+# /service/demo/members/patroni1
+# /service/demo/members/patroni2
+# /service/demo/members/patroni3
+# /service/demo/status
+
+# Master check (port 5000 internal / localhost:5002 external):
+# inet_server_addr = 172.19.0.5, pg_is_in_recovery = f
+
+# Replica check (port 5001):
+# inet_server_addr = 172.19.0.2, pg_is_in_recovery = t
+
+# Failover test: docker stop demo-patroni3 (was Leader)
+# After ~35s: patroni2 became Leader, TL incremented to 2
+# Write via localhost:5002 succeeded after failover
+
+# Replica stop test: docker stop demo-patroni1
+# Cluster continued with patroni2 Leader, writes OK

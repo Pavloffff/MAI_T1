@@ -1,0 +1,7 @@
+# Результаты k6
+
+Сюда сохраняются summary-файлы после запуска:
+
+```powershell
+.\hw1\scripts\run-load-tests.ps1
+```
